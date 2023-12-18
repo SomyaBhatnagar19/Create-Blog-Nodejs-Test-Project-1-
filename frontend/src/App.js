@@ -1,10 +1,9 @@
-
+import React from 'react';
+import CreateBlog from './CreateBlog';
 
 function App() {
   return (
-    <div className="App">
-      Hi
-    </div>
+    <CreateBlog/>
   );
 }
 
