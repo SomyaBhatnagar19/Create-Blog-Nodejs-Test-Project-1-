@@ -7,7 +7,6 @@ const CreateBlog = () => {
             Blog
         </header>
         
-        <h4>Add a new Blog:</h4>
         <form style={{backgroundColor: 'green', padding: '1rem'}}>
             <input type='text' placeholder='Blog Title'/>
             <input type='text' placeholder='Author'/>
