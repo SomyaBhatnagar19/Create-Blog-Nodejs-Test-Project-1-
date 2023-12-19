@@ -1,9 +1,12 @@
-import React from 'react';
-import CreateBlog from './CreateBlog';
+import React from "react";
+import CreateBlog from "./CreateBlog";
+
 
 function App() {
   return (
-    <CreateBlog/>
+    <>
+      <CreateBlog />
+    </>
   );
 }
 
