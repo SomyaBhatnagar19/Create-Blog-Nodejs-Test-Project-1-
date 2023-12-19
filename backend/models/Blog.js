@@ -1,8 +1,7 @@
 /* /backend/model/blog.js */
+//making the table as Blog in database
 
-// /backend/models/blog.js
-
-const { DataTypes } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
 const sequelize = require('../routes/database');
 
 const Blog = sequelize.define('Blog', {
