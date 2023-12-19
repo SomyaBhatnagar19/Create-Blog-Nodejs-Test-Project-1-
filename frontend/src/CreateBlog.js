@@ -5,7 +5,7 @@ import axios from "axios";
 
 const CreateBlog = () => {
   const [blogs, setBlogs] = useState([]);
-
+  const [comments, setComments] = useState([]);
   //making an object to have data to be used for making new blog
   const [newBlog, setNewBlog] = useState({
     title: "",
@@ -25,6 +25,20 @@ const CreateBlog = () => {
     };
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    // Fetch comments from the server when the component mounts
+    const fetchComments = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/comments");
+        setComments(response.data);
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+      }
+    };
+
+    fetchComments(); // Corrected here
   }, []);
 
   //when any of the input fields change this is going to work
@@ -114,6 +128,9 @@ const CreateBlog = () => {
               <div>
                 <h4>Add Comments:-</h4>
                 <input type="text" />
+                {comments.map((comment) => (
+                  <p key={comment.id}>{comment.text}</p>
+                ))}
                 <button type="submit">Post</button>
               </div>
             </li>
