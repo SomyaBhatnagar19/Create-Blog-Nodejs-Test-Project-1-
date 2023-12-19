@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve the API from the '/api' path
+// getting data from blog table on "http://localhost:3000/blogs"
 app.use('/blogs', blogRoutes);
 
 // Serve the frontend from the 'frontend' directory
