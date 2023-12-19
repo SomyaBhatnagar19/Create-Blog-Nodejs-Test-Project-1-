@@ -128,10 +128,15 @@ const CreateBlog = () => {
               <div>
                 <h4>Add Comments:-</h4>
                 <input type="text" />
-                {comments.map((comment) => (
-                  <p key={comment.id}>{comment.text}</p>
-                ))}
                 <button type="submit">Post</button>
+                {comments
+                  .filter((comment) => comment.blogId === blog.id)
+                  .map((comment) => (
+                    <div>
+                      <p key={comment.id}>{comment.text}</p>
+                      <button>Delete</button>
+                    </div>
+                  ))}
               </div>
             </li>
           ))}

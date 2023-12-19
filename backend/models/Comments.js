@@ -1,10 +1,14 @@
 // /backend/models/Comments.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../routes/database'); // Use the exported sequelize instance
+const sequelize = require('../routes/database'); 
 
 const Comments = sequelize.define('Comments', {
     text: {
         type: DataTypes.TEXT,
+        allowNull: false,
+    },
+    blogId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
 });
