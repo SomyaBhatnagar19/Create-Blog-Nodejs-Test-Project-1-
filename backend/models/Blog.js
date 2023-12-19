@@ -1,22 +1,27 @@
-/* /backend/model/blog.js */
-//making the table as Blog in database
+// /backend/models/Blog.js
 
-const { DataTypes, Sequelize } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../routes/database');
+const Comment = require('./Comments');
 
 const Blog = sequelize.define('Blog', {
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  author: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    author: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    description: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
 });
 
+// Define association
+Blog.hasMany(Comment);
+Comment.belongsTo(Blog);
+
 module.exports = Blog;
+

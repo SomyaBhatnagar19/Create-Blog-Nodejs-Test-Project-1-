@@ -7,4 +7,4 @@ const sequelize = new Sequelize("create-blog", "root", "Somya@1901b", {
   dialect: 'mysql',
 });
 
-module.exports = sequelize;
+module.exports = sequelize; // Export the sequelize instance
