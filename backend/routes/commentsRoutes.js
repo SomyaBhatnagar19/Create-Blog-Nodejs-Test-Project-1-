@@ -26,6 +26,27 @@ router.post('/', async (req, res) => {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
+});
+
+//ADDING FUNCTIONALITY FOR DELETEING COMMENT
+router.delete('/:commentId', async (req, res) => {
+    const commentId = req.params.commentId;
+  
+    try {
+      // Find the comment by ID
+      const comment = await Comments.findByPk(commentId);
+  
+      if (!comment) {
+        return res.status(404).json({ error: 'Comment not found' });
+      }
+  
+      // Delete the comment
+      await comment.destroy();
+      res.json({ message: 'Comment deleted successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
   });
 
 module.exports = router;

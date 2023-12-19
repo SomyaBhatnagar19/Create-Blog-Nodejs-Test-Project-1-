@@ -80,7 +80,7 @@ const CreateBlog = () => {
   };
 
   //function to handle comment submission
- const handleCreateComment = async (blogId) => {
+  const handleCreateComment = async (blogId) => {
     try {
       const res = await axios.post("http://localhost:3000/comments/", {
         text: newComment.text,
@@ -92,8 +92,16 @@ const CreateBlog = () => {
       console.log("Error creating comment: ", err);
     }
   };
-  
-  
+
+  //function to handle comment deletion
+  const DeleteCommentHandler = async (commentId) => {
+    try {
+      await axios.delete(`http://localhost:3000/comments/${commentId}`);
+      setComments((prevComments) => prevComments.filter((comment) => comment.id !== commentId));
+    } catch (err) {
+      console.log("Error deleting comment: ", err);
+    }
+  };
 
   return (
     <>
@@ -158,13 +166,12 @@ const CreateBlog = () => {
               <div>
                 <h4>Add Comments:-</h4>
                 <input
-  type="text"
-  placeholder="Add a comment"
-  name="text" // Change the name to match the state property
-  value={newComment.text}
-  onChange={handleCommentInputChange}
-/>
-
+                  type="text"
+                  placeholder="Add a comment"
+                  name="text" // Change the name to match the state property
+                  value={newComment.text}
+                  onChange={handleCommentInputChange}
+                />
 
                 <button
                   type="submit"
@@ -177,7 +184,7 @@ const CreateBlog = () => {
                   .map((comment) => (
                     <p key={comment.id}>
                       {comment.text}
-                      <button>Delete</button>
+                      <button onClick={() => DeleteCommentHandler(comment.id)}>Delete</button>
                     </p>
                   ))}
               </div>
