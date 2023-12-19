@@ -13,6 +13,11 @@ const CreateBlog = () => {
     description: "",
   });
 
+  //making an object to have comments created by user
+  const [newComment, setNewComment] = useState({
+    text: "",
+  });
+
   useEffect(() => {
     // Fetch data from the server when the component mounts
     const fetchData = async () => {
@@ -41,11 +46,20 @@ const CreateBlog = () => {
     fetchComments(); // Corrected here
   }, []);
 
-  //when any of the input fields change this is going to work
+  //when any of the input fields change for new blog this is going to work
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewBlog((prevBlog) => ({
       ...prevBlog,
+      [name]: value,
+    }));
+  };
+
+  //when any of the input fields change for comments input this is going to work
+  const handleCommentInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewComment((prevComment) => ({
+      ...prevComment,
       [name]: value,
     }));
   };
@@ -64,6 +78,22 @@ const CreateBlog = () => {
       console.log("Error creating blog: ", err);
     }
   };
+
+  //function to handle comment submission
+ const handleCreateComment = async (blogId) => {
+    try {
+      const res = await axios.post("http://localhost:3000/comments/", {
+        text: newComment.text,
+        blogId, // Include the blogId in the request
+      });
+      setComments((prevComments) => [...prevComments, res.data]);
+      setNewComment({ text: "" }); // Clear the input field
+    } catch (err) {
+      console.log("Error creating comment: ", err);
+    }
+  };
+  
+  
 
   return (
     <>
@@ -127,15 +157,28 @@ const CreateBlog = () => {
               {/* Add comments part */}
               <div>
                 <h4>Add Comments:-</h4>
-                <input type="text" />
-                <button type="submit">Post</button>
+                <input
+  type="text"
+  placeholder="Add a comment"
+  name="text" // Change the name to match the state property
+  value={newComment.text}
+  onChange={handleCommentInputChange}
+/>
+
+
+                <button
+                  type="submit"
+                  onClick={() => handleCreateComment(blog.id)}
+                >
+                  Post
+                </button>
                 {comments
                   .filter((comment) => comment.blogId === blog.id)
                   .map((comment) => (
-                    <div>
-                      <p key={comment.id}>{comment.text}</p>
+                    <p key={comment.id}>
+                      {comment.text}
                       <button>Delete</button>
-                    </div>
+                    </p>
                   ))}
               </div>
             </li>
