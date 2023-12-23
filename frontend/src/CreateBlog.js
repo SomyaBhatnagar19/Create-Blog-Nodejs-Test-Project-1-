@@ -56,11 +56,14 @@ const CreateBlog = () => {
   };
 
   //when any of the input fields change for comments input this is going to work
-  const handleCommentInputChange = (e) => {
+  const handleCommentInputChange = (blogId) => (e) => {
     const { name, value } = e.target;
-    setNewComment((prevComment) => ({
-      ...prevComment,
-      [name]: value,
+    setNewComment((prevComments) => ({
+      ...prevComments,
+      [blogId]: {
+        ...prevComments[blogId],
+        [name]: value,
+      },
     }));
   };
 
@@ -83,11 +86,14 @@ const CreateBlog = () => {
   const handleCreateComment = async (blogId) => {
     try {
       const res = await axios.post("http://localhost:3000/comments/", {
-        text: newComment.text,
-        blogId, // Include the blogId in the request
+        text: newComment[blogId]?.text || "",
+        blogId,
       });
       setComments((prevComments) => [...prevComments, res.data]);
-      setNewComment({ text: "" }); // Clear the input field
+      setNewComment((prevComments) => ({
+        ...prevComments,
+        [blogId]: { text: "" },
+      }));
     } catch (err) {
       console.log("Error creating comment: ", err);
     }
@@ -144,7 +150,7 @@ const CreateBlog = () => {
           <button type="submit">Create Blog</button>
         </form>
       </div>
-      {/* Display the fetched blogs */}
+      {/* Displaying the fetched blogs */}
       <div>
         <ul style={{ listStyle: "none", padding: "2rem" }}>
           {blogs.map((blog) => (
@@ -168,9 +174,9 @@ const CreateBlog = () => {
                 <input
                   type="text"
                   placeholder="Add a comment"
-                  name="text" // Change the name to match the state property
-                  value={newComment.text}
-                  onChange={handleCommentInputChange}
+                  name="text"
+                  value={newComment[blog.id]?.text || ""}
+                  onChange={handleCommentInputChange(blog.id)}
                 />
 
                 <button
